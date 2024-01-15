@@ -1,8 +1,6 @@
-# Database Design 
+# Database Design - Case Study: Apple Inc.
 
 # Apple-Database-Optimization-Project
-
-## Case Study: Apple Inc.
 
 ### 1. Company’s Description
 
@@ -82,3 +80,14 @@ The database design must facilitate the tracking of customers (in-store & online
 4. Payment type is either cash, check, credit card, debit card, or online banking.
 5. Shipping options are in-store purchase, delivery service, or in-store pickup.
 6. Product ID must be between 100 and 200.
+
+### 6. Relationships
+- Customers to Apple accounts (one to many)
+- Apple accounts to orders (one to many)
+- Orders to product (Many to many)
+- Employee to orders (one to many)
+- Employee to premises (Many to one)
+- Products to premises (many to many)
+- Orders to shipping details (one to one)
+- Apple account to mailshot campaign (many to many)
+- Product stock to premises (many to one)

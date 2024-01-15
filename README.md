@@ -75,3 +75,10 @@ The database design must facilitate the tracking of customers (in-store & online
 17. Each order may have zero or one shipping details.
 18. Each shipping detail is associated with one order.
 
+### 5. Constraints
+1. Customer gender type can be either ‘F’ or ‘M’ only.
+2. Premise type must be either office, state, or warehouse.
+3. Employee gender type can be either F or M only.
+4. Payment type is either cash, check, credit card, debit card, or online banking.
+5. Shipping options are in-store purchase, delivery service, or in-store pickup.
+6. Product ID must be between 100 and 200.

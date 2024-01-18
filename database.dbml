@@ -1,0 +1,146 @@
+Project AppleDatabase {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Apple Database
+    ### The Apple Database is a relational database designed for managing various aspects of an Apple-related business, covering customer information, product details, orders, employee data, premises, and mailshot campaigns.
+  '''
+}
+
+Table "customer" {
+  "cust_id" INT [pk]
+  "c_firstname" VARCHAR(20)
+  "c_surname" VARCHAR(20)
+  "c_birthdate" DATE
+  "c_gender" CHAR(1)
+  "c_contact" VARCHAR(15) [not null]
+
+  Indexes {
+    (c_surname, c_firstname) [name: "idx_c_name"]
+  }
+}
+
+Table "apple_account" {
+  "apple_id" VARCHAR(30) [pk]
+  "cust_id" INT
+  "password" VARCHAR(40) [not null]
+}
+
+Table "mailshot_campaign" {
+  "mailshot_id" CHAR(4) [pk]
+  "mailshot_name" VARCHAR(40) [not null]
+  "mailshot_start_date" DATE [not null]
+  "mailshot_end_date" DATE
+
+  Indexes {
+    mailshot_name [name: "idx_mailshot_name"]
+  }
+}
+
+Table "mailshot_customer" {
+  "mailshot_id" CHAR(4)
+  "apple_id" VARCHAR(30)
+  "outcome" VARCHAR(30)
+
+  Indexes {
+    (mailshot_id, apple_id) [pk]
+  }
+}
+
+Table "premise" {
+  "premise_id" VARCHAR(10) [pk]
+  "premise_type" CHAR(10) [not null]
+  "premise_address" VARCHAR(100) [not null]
+  "premise_city" VARCHAR(20) [not null]
+  "premise_state" VARCHAR(20) [not null]
+  "premise_postcode" NUMERIC(5) [not null]
+  "premise_country" VARCHAR(20) [not null]
+
+  Indexes {
+    premise_type [name: "idx_premise_type"]
+    premise_country [name: "idx_premise_country"]
+    premise_postcode [name: "idx_premise_postcode"]
+  }
+}
+
+Table "employee" {
+  "emp_id" VARCHAR(10) [pk]
+  "emp_firstname" VARCHAR(20) [not null]
+  "emp_surname" VARCHAR(20) [not null]
+  "emp_gender" CHAR(1) [not null]
+  "emp_birthdate" DATE [not null]
+  "emp_contact" VARCHAR(15) [not null]
+  "emp_workplace_id" VARCHAR(10) [not null]
+  "date_hired" DATE [not null]
+  "date_resigned" DATE
+  "emp_position" VARCHAR(40) [not null]
+  "reports_to" VARCHAR(10)
+  "mth_salary" NUMERIC(10) [not null]
+
+  Indexes {
+    (emp_surname, emp_firstname) [name: "idx_emp_surname"]
+    emp_workplace_id [name: "idx_emp_workplace_id"]
+    emp_position [name: "idx_emp_position"]
+  }
+}
+
+Table "product" {
+  "prod_id" INT [pk]
+  "prod_name" VARCHAR(20) [not null]
+  "prod_unit_price" NUMERIC(10,2) [not null]
+  "prod_category" VARCHAR(20) [not null]
+}
+
+Table "product_stock" {
+  "prod_id" INT
+  "premise_id" VARCHAR(10)
+  "stock" NUMERIC(10) [not null]
+
+  Indexes {
+    (prod_id, premise_id) [pk]
+    prod_id [name: "idx_prod_id"]
+    premise_id [name: "idx_premise_id"]
+  }
+}
+
+Table "ship_details" {
+  "ship_id" VARCHAR(15) [pk]
+  "ship_addressline" VARCHAR(100) [not null]
+  "ship_city" VARCHAR(20) [not null]
+  "ship_state" VARCHAR(20) [not null]
+  "ship_postcode" NUMERIC(5) [not null]
+  "ship_country" VARCHAR(20) [not null]
+}
+
+Table "orders" {
+  "order_id" CHAR(4) [pk]
+  "order_datetime" DATE [not null]
+  "cust_id" INT [not null]
+  "emp_id" VARCHAR(10) [not null]
+  "pay_type" VARCHAR(20) [not null]
+  "shipping_option" VARCHAR(40) [not null]
+  "ship_id" VARCHAR(15)
+}
+
+Table "order_details" {
+  "order_id" CHAR(4)
+  "prod_id" INT
+  "quantity" NUMERIC(1) [not null]
+  "discount" NUMERIC(10,2)
+
+  Indexes {
+    (order_id, prod_id) [pk]
+  }
+}
+
+Ref: "customer"."cust_id" < "apple_account"."cust_id"
+Ref: "mailshot_campaign"."mailshot_id" < "mailshot_customer"."mailshot_id"
+Ref: "apple_account"."apple_id" < "mailshot_customer"."apple_id"
+Ref: "premise"."premise_id" < "employee"."emp_workplace_id"
+Ref "reports_to": "employee"."emp_id" < "employee"."reports_to"
+Ref: "product"."prod_id" < "product_stock"."prod_id"
+Ref: "premise"."premise_id" < "product_stock"."premise_id"
+Ref: "customer"."cust_id" < "orders"."cust_id"
+Ref: "employee"."emp_id" < "orders"."emp_id"
+Ref: "ship_details"."ship_id" < "orders"."ship_id"
+Ref: "orders"."order_id" < "order_details"."order_id"
+Ref: "product"."prod_id" < "order_details"."prod_id"

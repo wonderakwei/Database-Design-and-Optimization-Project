@@ -168,7 +168,6 @@ Throughout the database design process, I systematically progressed through phas
 ### Phase III: Logical Design (Data Model Mapping)
 
 **Logical Schema**
-- Logical Design (Data Model Mapping)
 The logical design phase involves transforming the Entity-Relationship (E-R) diagram into a concrete representation known as the logical database schema. In this schema, entities, relationships, attributes, primary keys, and foreign keys are precisely defined to provide a blueprint for creating the database tables.
 
 ### Entities:

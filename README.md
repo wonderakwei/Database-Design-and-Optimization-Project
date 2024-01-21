@@ -164,7 +164,7 @@ Throughout the database design process, I systematically progressed through phas
 
 **Entity-Relationship Diagram**
 
-![ER Diagram](path/to/ER_diagram_image.png)
+![ER Diagram](AppleDB.png)
 
 ### Phase III: Logical Design (Data Model Mapping)
 

@@ -170,57 +170,14 @@ Throughout the database design process, I systematically progressed through phas
 
 **Logical Schema**
 
-1. **Customers Table**
-   - PK: Customer ID
-   - Attributes: First Name, Surname, Birthdate, Gender, Contact Number
-
-2. **Apple Account Table**
-   - PK: Apple ID
-   - FK: Customer ID (references Customers(Customer ID))
-   - Attributes: Email Address (Unique), Password
-
-3. **Product Table**
-   - PK: Product ID
-   - Attributes: Name, Price, Category
-
-4. **Order Table**
-   - PK: Order ID
-   - FKs: Customer ID (references Customers(Customer ID)), Product ID (references Products(Product ID)), Employee ID (references Employees(Employee ID)), Ship ID (references Ship_Details(Order ID), Optional)
-   - Attributes: Order Date and Time, Payment Type, Shipping Option
-
-5. **Employee Table**
-   - PK: Employee ID
-   - FKs: Premise ID (references Premises(Premise ID)), Person to Report To (references Employees(Employee ID), Recursive)
-   - Attributes: Name, Gender, Birthdate, Contact, Date Hired, Date Resigned, Position, Monthly Salary
-
-6. **Premise Table**
-   - PK: Premise ID
-   - Attributes: Type, Address
-
-7. **Shipping Details Table**
-   - PK: Ship ID
-   - FK: Order ID (references Orders(Order ID))
-   - Attributes: Shipping Address, City, State, Postcode, Country
-
-8. **Mailshot Campaign Table**
-   - PK: Mailshot ID
-   - Attributes: Mailshot Name, Start Date, End Date, Outcome
-
-9. **Product Stock Table**
-   - PKs: Product ID, Premise ID
-   - FKs: Product ID (references Products(Product ID)), Premise ID (references Premises(Premise ID))
-   - Attributes: Quantity
-
+- **Database Schema:** [Online Schema Documentation](https://dbdocs.io/akweiwonder3/AppleDatabase)
+![Database Schema Diagram](AppleDB.png)
 ### Phase IV: Physical Design
 
 **Internal Schema**
 
 Converted the logical database schema into a physical database, created tables, specified columns, column data types, column constraints, and keys.
 
-**Visual Documentation**
-
-- **ER Diagram Image:** [View ER Diagram](path/to/ER_diagram_image.png)
-- **Database Schema:** [Online Schema Documentation](https://dbdocs.io/akweiwonder3/AppleDatabase)
 
 The completed database design ensures the Apple Inc. database is structured to meet business requirements, minimize redundancies, and maintain data consistency.
 

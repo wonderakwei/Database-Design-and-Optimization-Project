@@ -159,27 +159,183 @@ Throughout the database design process, I systematically progressed through phas
 6. Product ID must be between 100 and 200.
 
 ### Phase II
-
-: Conceptual Design
+**Conceptual Design**
 
 **Entity-Relationship Diagram**
 
-![ER Diagram](AppleDB.png)
+![ER Diagram]()
 
 ### Phase III: Logical Design (Data Model Mapping)
 
 **Logical Schema**
+- Logical Design (Data Model Mapping)
+The logical design phase involves transforming the Entity-Relationship (E-R) diagram into a concrete representation known as the logical database schema. In this schema, entities, relationships, attributes, primary keys, and foreign keys are precisely defined to provide a blueprint for creating the database tables.
+
+- Entities and Relationships:
+- 
 
 - **Database Schema:** [Online Schema Documentation](https://dbdocs.io/akweiwonder3/AppleDatabase)
+
 ![Database Schema Diagram](AppleDB.png)
+
 ### Phase IV: Physical Design
 
 **Internal Schema**
 
 Converted the logical database schema into a physical database, created tables, specified columns, column data types, column constraints, and keys.
 
+#### Customer Table
 
-The completed database design ensures the Apple Inc. database is structured to meet business requirements, minimize redundancies, and maintain data consistency.
+```SQL
+CREATE TABLE customer (
+    cust_id NUMERIC(5) PRIMARY KEY,
+    c_firstname VARCHAR(20),
+    c_surname VARCHAR(20),
+    c_birthdate TIMESTAMP,
+    c_gender CHAR(1) CHECK (c_gender IN ('F','M')),
+    c_contact VARCHAR(15) NOT NULL
+);
+```
+
+#### Apple Account Table
+
+```SQL
+CREATE TABLE apple_account (
+    apple_id VARCHAR(30) PRIMARY KEY,
+    cust_id NUMERIC(5),
+    password VARCHAR(40) NOT NULL,
+    FOREIGN KEY (cust_id) REFERENCES customer(cust_id)
+);
+```
+
+#### Mailshot Campaign Table
+
+```SQL
+CREATE TABLE mailshot_campaign (
+    mailshot_id CHAR(4) PRIMARY KEY,
+    mailshot_name VARCHAR(40) NOT NULL,
+    mailshot_start_date TIMESTAMP NOT NULL,
+    mailshot_end_date TIMESTAMP
+);
+```
+
+#### Mailshot Customer Table
+
+```SQL
+CREATE TABLE mailshot_customer (
+    mailshot_id CHAR(4),
+    apple_id VARCHAR(30),
+    outcome VARCHAR(30),
+    PRIMARY KEY (mailshot_id, apple_id),
+    FOREIGN KEY (mailshot_id) REFERENCES mailshot_campaign (mailshot_id),
+    FOREIGN KEY (apple_id) REFERENCES apple_account (apple_id)
+);
+```
+
+#### Premise Table
+
+```SQL
+CREATE TABLE premise (
+    premise_id VARCHAR(10) PRIMARY KEY,
+    premise_type CHAR(10) NOT NULL CHECK (premise_type IN ('Office','Store','Warehouse')),
+    premise_address VARCHAR(100) NOT NULL,
+    premise_city VARCHAR(20) NOT NULL,
+    premise_state VARCHAR(20) NOT NULL,
+    premise_postcode NUMERIC(5) NOT NULL,
+    premise_country VARCHAR(20) NOT NULL
+);
+```
+
+#### Employee Table
+
+```SQL
+CREATE TABLE employee (
+    emp_id VARCHAR(10) PRIMARY KEY,
+    emp_firstname VARCHAR(20) NOT NULL,
+    emp_surname VARCHAR(20) NOT NULL,
+    emp_gender CHAR(1) NOT NULL CHECK (emp_gender IN ('F','M')),
+    emp_birthdate TIMESTAMP NOT NULL,
+    emp_contact VARCHAR(15) NOT NULL,
+    emp_workplace_id VARCHAR(10) NOT NULL,
+    date_hired TIMESTAMP NOT NULL,
+    date_resigned TIMESTAMP,
+    emp_position VARCHAR(40) NOT NULL,
+    reports_to VARCHAR(10),
+    mth_salary NUMERIC(10) NOT NULL,
+    FOREIGN KEY (emp_workplace_id) REFERENCES premise(premise_id),
+    CONSTRAINT reports_to FOREIGN KEY(reports_to) REFERENCES employee (emp_id)
+);
+```
+
+#### Product Table
+
+```SQL
+CREATE TABLE product (
+    prod_id NUMERIC(3) PRIMARY KEY CHECK (prod_id BETWEEN 100 and 200),
+    prod_name VARCHAR(20) NOT NULL,
+    prod_unit_price NUMERIC(10, 2) NOT NULL,
+    prod_category VARCHAR(20) NOT NULL
+);
+```
+
+#### Product Stock Table
+
+```SQL
+CREATE TABLE product_stock (
+    prod_id NUMERIC(3),
+    premise_id VARCHAR(10),
+    stock NUMERIC(10) NOT NULL,
+    PRIMARY KEY (prod_id, premise_id),
+    FOREIGN KEY (prod_id) REFERENCES product (prod_id),
+    FOREIGN KEY (premise_id) REFERENCES premise (premise_id)
+);
+```
+
+#### Ship Details Table
+
+```SQL
+CREATE TABLE ship_details (
+    ship_id VARCHAR(15) PRIMARY KEY,
+    ship_addressline VARCHAR(100) NOT NULL,
+    ship_city VARCHAR(20) NOT NULL,
+    ship_state VARCHAR(20) NOT NULL,
+    ship_postcode NUMERIC(5) NOT NULL,
+    ship_country VARCHAR(20) NOT NULL
+);
+```
+
+#### Order Table
+
+```SQL
+CREATE TABLE orders (
+    order_id CHAR(4) PRIMARY KEY,
+    order_datetime TIMESTAMP NOT NULL,
+    cust_id NUMERIC(5) NOT NULL,
+    emp_id VARCHAR(10) NOT NULL,
+    pay_type VARCHAR(20) NOT NULL CHECK (pay_type IN ('Cash','Check','Credit Card','Debit Card','Online Banking')),
+    shipping_option VARCHAR(40) NOT NULL CHECK (shipping_option IN ('In-store Purchase','Delivery Service','In-store Pickup')),
+    ship_id VARCHAR(15),
+    FOREIGN KEY (cust_id) REFERENCES customer (cust_id),
+    FOREIGN KEY (emp_id) REFERENCES employee (emp_id),
+    FOREIGN KEY (ship_id) REFERENCES ship_details (ship_id)
+);
+```
+
+#### Order Details Table
+
+```SQL
+CREATE TABLE order_details (
+    order_id CHAR(4),
+    prod_id NUMERIC(3),
+    quantity NUMERIC(1) NOT NULL,
+    discount NUMERIC(10, 2),
+    PRIMARY KEY (order_id, prod_id),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (prod_id) REFERENCES product(prod_id)
+);
+```
+
+- The completed database design ensures the Apple Inc. database is structured to meet business requirements, minimize redundancies, and maintain data consistency.
 
 ## Prerequisites
 

@@ -171,8 +171,180 @@ Throughout the database design process, I systematically progressed through phas
 - Logical Design (Data Model Mapping)
 The logical design phase involves transforming the Entity-Relationship (E-R) diagram into a concrete representation known as the logical database schema. In this schema, entities, relationships, attributes, primary keys, and foreign keys are precisely defined to provide a blueprint for creating the database tables.
 
-- Entities and Relationships:
-- 
+### Entities:
+
+1. **Customer**
+2. **Apple Account**
+3. **Mailshot Campaign**
+4. **Mailshot Customer**
+5. **Premise**
+6. **Employee**
+7. **Product**
+8. **Product Stock**
+9. **Ship Details**
+10. **Orders**
+11. **Order Details**
+
+### Relationships:
+
+1. **Customer - Apple Account**
+   - Relationship: One-to-One
+   - Foreign Key: `cust_id` in Apple Account references `cust_id` in Customer.
+
+2. **Mailshot Campaign - Mailshot Customer**
+   - Relationship: One-to-Many
+   - Foreign Keys: 
+      - `mailshot_id` in Mailshot Customer references `mailshot_id` in Mailshot Campaign
+      - `apple_id` in Mailshot Customer references `apple_id` in Apple Account
+
+3. **Employee - Employee (Self-Reference)**
+   - Relationship: Hierarchical (Reports To)
+   - Foreign Key: `reports_to` in Employee references `emp_id` in Employee.
+
+4. **Employee - Premise**
+   - Relationship: Many-to-One
+   - Foreign Key: `emp_workplace_id` in Employee references `premise_id` in Premise.
+
+5. **Product Stock - Product**
+   - Relationship: Many-to-One
+   - Foreign Key: `prod_id` in Product Stock references `prod_id` in Product.
+
+6. **Product Stock - Premise**
+   - Relationship: Many-to-One
+   - Foreign Key: `premise_id` in Product Stock references `premise_id` in Premise.
+
+7. **Orders - Customer**
+   - Relationship: Many-to-One
+   - Foreign Key: `cust_id` in Orders references `cust_id` in Customer.
+
+8. **Orders - Employee**
+   - Relationship: Many-to-One
+   - Foreign Key: `emp_id` in Orders references `emp_id` in Employee.
+
+9. **Orders - Ship Details**
+   - Relationship: Many-to-One
+   - Foreign Key: `ship_id` in Orders references `ship_id` in Ship Details.
+
+10. **Order Details - Orders**
+    - Relationship: Many-to-One
+    - Foreign Key: `order_id` in Order Details references `order_id` in Orders.
+
+11. **Order Details - Product**
+    - Relationship: Many-to-One
+    - Foreign Key: `prod_id` in Order Details references `prod_id` in Product.
+
+### Attributes:
+
+#### Customer:
+- `cust_id`
+- `c_firstname`
+- `c_surname`
+- `c_birthdate`
+- `c_gender`
+- `c_contact`
+
+#### Apple Account:
+- `apple_id`
+- `cust_id`
+- `password`
+
+#### Mailshot Campaign:
+- `mailshot_id`
+- `mailshot_name`
+- `mailshot_start_date`
+- `mailshot_end_date`
+
+#### Mailshot Customer:
+- `mailshot_id`
+- `apple_id`
+- `outcome`
+
+#### Premise:
+- `premise_id`
+- `premise_type`
+- `premise_address`
+- `premise_city`
+- `premise_state`
+- `premise_postcode`
+- `premise_country`
+
+#### Employee:
+- `emp_id`
+- `emp_firstname`
+- `emp_surname`
+- `emp_gender`
+- `emp_birthdate`
+- `emp_contact`
+- `emp_workplace_id`
+- `date_hired`
+- `date_resigned`
+- `emp_position`
+- `reports_to`
+- `mth_salary`
+
+#### Product:
+- `prod_id`
+- `prod_name`
+- `prod_unit_price`
+- `prod_category`
+
+#### Product Stock:
+- `prod_id`
+- `premise_id`
+- `stock`
+
+#### Ship Details:
+- `ship_id`
+- `ship_addressline`
+- `ship_city`
+- `ship_state`
+- `ship_postcode`
+- `ship_country`
+
+#### Orders:
+- `order_id`
+- `order_datetime`
+- `cust_id`
+- `emp_id`
+- `pay_type`
+- `shipping_option`
+- `ship_id`
+
+#### Order Details:
+- `order_id`
+- `prod_id`
+- `quantity`
+- `discount`
+
+### Primary Keys:
+
+- **Customer:** `cust_id`
+- **Apple Account:** `apple_id`
+- **Mailshot Campaign:** `mailshot_id`
+- **Mailshot Customer:** `(mailshot_id, apple_id)`
+- **Premise:** `premise_id`
+- **Employee:** `emp_id`
+- **Product:** `prod_id`
+- **Product Stock:** `(prod_id, premise_id)`
+- **Ship Details:** `ship_id`
+- **Orders:** `order_id`
+- **Order Details:** `(order_id, prod_id)`
+
+### Foreign Keys:
+
+- **Apple Account - Customer:** `cust_id` in Apple Account references `cust_id` in Customer.
+- **Mailshot Customer - Mailshot Campaign:** `mailshot_id` in Mailshot Customer references `mailshot_id` in Mailshot Campaign.
+- **Mailshot Customer - Apple Account:** `apple_id` in Mailshot Customer references `apple_id` in Apple Account.
+- **Employee - Employee (Self-Reference):** `reports_to` in Employee references `emp_id` in Employee.
+- **Employee - Premise:** `emp_workplace_id` in Employee references `premise_id` in Premise.
+- **Product Stock - Product:** `prod_id` in Product Stock references `prod_id` in Product.
+- **Product Stock - Premise:** `premise_id` in Product Stock references `premise_id` in Premise.
+- **Orders - Customer:** `cust_id` in Orders references `cust_id` in Customer.
+- **Orders - Employee:** `emp_id` in Orders references `emp_id` in Employee.
+- **Orders - Ship Details:** `ship_id` in Orders references `ship_id` in Ship Details.
+- **Order Details - Orders:** `order_id` in Order Details references `order_id` in Orders.
+- **Order Details - Product:** `prod_id` in Order Details references `prod_id` in Product.
+ 
 
 - **Database Schema:** [Online Schema Documentation](https://dbdocs.io/akweiwonder3/AppleDatabase)
 

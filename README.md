@@ -1,5 +1,7 @@
 # Database Design and Optimization Project: Apple Inc.
 
+# Database Design and Optimization Project: Apple Inc.
+
 ## Table of Contents
 
 1. [Company’s Description](#1-companys-description)
@@ -11,7 +13,8 @@
 4. [Business Rules](#4-business-rules)
 5. [Constraints](#5-constraints)
 6. [Relationships](#6-relationships)
-7. [Completed Database Design Process](#completed-database-design-process)
+7. [Database Implementation and Optimization](#7-database-implementation-and-optimization)
+8. [Completed Database Design Process](#8-completed-database-design-process)
 
 ## 1. Company’s Description
 
@@ -162,7 +165,7 @@ Throughout the database design process, I systematically progressed through phas
 **Conceptual Design**
 
 **Entity-Relationship Diagram**
-
+![ERD](ERD.png)
 
 
 ### Phase III: Logical Design (Data Model Mapping)
@@ -508,38 +511,33 @@ CREATE TABLE order_details (
 
 - The completed database design ensures the Apple Inc. database is structured to meet business requirements, minimize redundancies, and maintain data consistency.
 
-## Prerequisites
+## 8. Dockerized PostgreSQL and PGAdmin Setup
+### Prerequisites
 
-Ensure Docker is installed and running on your machine.
+Make sure Docker is installed and running on your local machine.
 
-## Installation
+### Installation
 
 1. Clone the project repository to your local machine.
-2. Create a .env file:
-   - Include details:
-     - POSTGRES_DB=
-     - POSTGRES_USER=
-     - POSTGRES_PASSWORD=
-     - PGADMIN_DEFAULT_EMAIL=
-     - PGADMIN_DEFAULT_PASSWORD=
+2. Create a `.env` file with the following details:
 
-## Usage
+    ```env
+    POSTGRES_DB=
+    POSTGRES_USER=
+    POSTGRES_PASSWORD=
+    PGADMIN_DEFAULT_EMAIL=
+    PGADMIN_DEFAULT_PASSWORD=
+    ```
+
+### Usage
 
 ### Docker Images and Docker Compose
 
-Familiarize yourself with Docker images and Docker Compose concepts, essential for configuring and running services.
-
-### Creating Docker Compose File
-
-Orchestrate the PostgreSQL and PGAdmin setup by creating a docker-compose.yml file. Use the provided configuration as a reference.
-
-### Key Explanations
-
-Understand the critical configurations in the Docker Compose file, encompassing services, container settings, environment variables, ports, and volumes.
+Get acquainted with Docker images and Docker Compose concepts, which are crucial for configuring and running services.
 
 ### Running Docker-Compose
 
-After cloning the project, navigate to its directory in the terminal and execute:
+After cloning the project, navigate to its directory in the terminal and run:
 
 ```bash
 docker-compose up
@@ -549,22 +547,22 @@ This command will download the required images and start the services.
 
 ### Accessing PGAdmin
 
-Open pgAdmin by accessing http://localhost:8080 in your web browser.
+- Open pgAdmin by going to http://localhost:8080 in your web browser.
 
-Log in with the default email and password you specified in your docker-compose.yml.
+- Log in with the default email and password you specified in your `docker-compose.yml`.
 
-In the pgAdmin dashboard, navigate to the "Servers" section on the left.
+- In the pgAdmin dashboard, navigate to the "Servers" section on the left.
 
-Right-click on "Servers" and choose "Create" and then "Server...".
+- Right-click on "Servers" and choose "Create" and then "Server...".
 
-In the "General" tab, provide a name for your server in the "Name" field.
+- In the "General" tab, provide a name for your server in the "Name" field.
 
-Switch to the "Connection" tab:
+- Switch to the "Connection" tab:
 - Host name/address: Use the IP address or hostname of your PostgreSQL container. In this case, it's the IP address of your host machine (you might need to replace it with the actual IP).
 - Port: Set it to 5432, which is the default port for PostgreSQL.
-- Maintenance database: Use the value of ${POSTGRES_DB} from your docker-compose.yml.
-- Username: Use the value of ${POSTGRES_USER} from your docker-compose.yml.
-- Password: Use the value of ${POSTGRES_PASSWORD} from your docker-compose.yml.
+- Maintenance database: Use the value of ${POSTGRES_DB} from your `docker-compose.yml`.
+- Username: Use the value of ${POSTGRES_USER} from your `docker-compose.yml`.
+- Password: Use the value of ${POSTGRES_PASSWORD} from your `docker-compose.yml`.
 
 Click "Save" to add the server.
 

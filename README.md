@@ -1,7 +1,5 @@
 # Database Design and Optimization Project: Apple Inc.
 
-# Database Design and Optimization Project: Apple Inc.
-
 ## Table of Contents
 
 1. [Company’s Description](#1-companys-description)

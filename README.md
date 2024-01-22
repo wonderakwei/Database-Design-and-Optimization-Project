@@ -346,9 +346,9 @@ The logical design phase involves transforming the Entity-Relationship (E-R) dia
 - **Order Details - Product:** `prod_id` in Order Details references `prod_id` in Product.
  
 
-- **Database Schema:** [Online Schema Documentation](https://dbdocs.io/akweiwonder3/AppleDatabase)
-
 ![Database Schema Diagram](AppleDB.png)
+
+**Database Schema:** [Online Schema Documentation](https://dbdocs.io/akweiwonder3/AppleDatabase)
 
 ### Phase IV: Physical Design
 

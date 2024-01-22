@@ -163,7 +163,7 @@ Throughout the database design process, I systematically progressed through phas
 
 **Entity-Relationship Diagram**
 
-![ER Diagram]()
+
 
 ### Phase III: Logical Design (Data Model Mapping)
 
